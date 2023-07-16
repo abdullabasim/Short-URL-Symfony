@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block pageTitle %}
+    <span class="iconify me-1" data-icon="fa:user"></span> {{ app.user.userIdentifier }}
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    
+    <div class="card card-outline card-primary">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') == 'app_profile_index' %} active{% endif %}" href="{{ path('app_profile_index') }}">
+                    <span class="iconify me-1" data-icon="fa6-solid:wrench"></span>
+                    Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') == 'app_profile_password' %} active{% endif %}" href="{{ path('app_profile_password') }}">
+                    <span class="iconify me-1" data-icon="fa6-solid:key"></span>
+                    Change password
+                </a>
+            </li>
+        </ul>
+        <div class="card-body">
+            {% block profile %}
+                {{ form_widget(form) }}
+            {% endblock %}
+        </div>
+        <div class="card-footer text-end">
+            <div class="d-flex">
+                <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

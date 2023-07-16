@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Domain/'
+            - '../src/Entity/'
+            - '../src/DependencyInjection/'
+            - '../src/Infrastructure/Error/'
+            - '../src/Infrastructure/Logger/'
+            - '../src/Util/'
+            - '../src/Kernel.php'
+
+    App\Infrastructure\Clock\Clock: '@App\Infrastructure\Clock\SystemClock'

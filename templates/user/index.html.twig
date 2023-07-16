@@ -1,0 +1,59 @@
+{% extends 'layout.html.twig' %}
+
+{% block pageTitle %}
+    Users
+{% endblock %}
+
+{% block pageActions %}
+    <a class="btn btn-primary" href="{{ path('app_user_add') }}">Add</a>
+{% endblock %}
+
+{% block content %}
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    Users <span class="badge bg-primary">{{ pagination.getTotalItemCount }}</span>
+                </div>
+                <table class="table table-vcenter table-hover table-striped card-table">
+                    <thead>
+                    <tr>
+                        <th>{{ knp_pagination_sortable(pagination, 'Mail address', ['p.email']) }}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in pagination %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_user_edit', {user: user.id}) }}">
+                                    {{ user.email }}
+                                </a>
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    {% if user.equals(app.user) == false %}
+                                        {% if user.enable != true %}
+                                            <a href="{{ path('app_user_enable', { user: user.id }) }}" data-bs-toggle="tooltip" title="Enable" class="btn btn-sm btn-danger"><span class="iconify" data-icon="fa6-solid:circle"></span></a>
+                                        {% else %}
+                                            <a href="{{ path('app_user_disable', { user: user.id }) }}" data-bs-toggle="tooltip" title="Disable" class="btn btn-sm btn-success"><span class="iconify" data-icon="fa6-solid:circle"></span></a>
+                                        {% endif %}
+                                        <a href="{{ path('app_user_edit', { user: user.id }) }}" data-bs-toggle="tooltip" title="Edit" class="btn btn-sm btn-primary"><span class="iconify" data-icon="fa6-solid:pencil"></span></a>
+                                        <a href="{{ path('app_user_remove', { user: user.id }) }}" data-confirmation="Remove?" data-bs-toggle="tooltip" title="Remove" class="btn btn-sm bs-confirmation btn-danger"><span class="iconify" data-icon="fa6-solid:trash"></span></a>
+                                    {% else %}
+                                        <span class="btn btn-sm btn-primary disabled"><span class="iconify" data-icon="fa6-solid:pencil"></span></span>
+                                        <span class="btn btn-sm bs-confirmation btn-danger disabled"><span class="iconify" data-icon="fa6-solid:trash"></span></span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="card-footer d-flex align-items-center">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
